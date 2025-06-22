@@ -1,0 +1,6 @@
+*.csv
+models/
+logs/
+*.conll
+AE-venv/
+AE-venv-py310/
