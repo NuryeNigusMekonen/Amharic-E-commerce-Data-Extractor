@@ -28,21 +28,16 @@ def get_compute_metrics(crf, labels_list, device):
 
         # Create a mask where label != -100
         mask = (label_ids != -100).bool()
-
         # FIX: ensure the first timestep mask is always ON for CRF
         if mask.size(1) > 0:
             mask[:, 0] = True
-
         # Replace -100 in labels with 0 for safe decoding
         label_ids = label_ids.clone()
         label_ids[label_ids == -100] = 0
-
         preds = crf.decode(emissions, mask)
-
         # Flatten predictions and labels
         true_labels = []
         true_preds = []
-
         for true, pred, m in zip(label_ids, preds, mask):
             seq_len = m.sum().item()
             true_labels.extend(true[:seq_len].tolist())

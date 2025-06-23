@@ -47,30 +47,23 @@ def clean_text(text):
     text = re.sub(r'\s+', ' ', text)
 
     return text.strip()
-
-
 # PREPROCESS FUNCTION
 def preprocess(file_path=INPUT_FILE):
     logging.info(f" Loading file: {file_path}")
-    
     try:
         df = pd.read_csv(file_path)
     except FileNotFoundError:
         logging.error(f" File not found: {file_path}")
         return None
-
     if 'message' not in df.columns:
         logging.error(" 'message' column not found in the input data.")
         return None
-
     # Clean and tokenize
     df['clean_message'] = df['message'].apply(clean_text)
     df['tokens'] = df['clean_message'].apply(lambda x: tokenizer.tokenize(x))
-
     # Output path
     out_file = os.path.join(PROCESSED_DIR, f"processed_{os.path.basename(file_path)}")
     df.to_csv(out_file, index=False)
-
     logging.info(f" Saved processed data to: {out_file}")
     return out_file
 # Optional: allow running directly
