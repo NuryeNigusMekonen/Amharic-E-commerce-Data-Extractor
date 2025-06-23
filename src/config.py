@@ -15,6 +15,4 @@ MODEL_LIST = {
     "Davlan/afro-xlmr-base": "../models/afroxlmr-ner/checkpoint-200",
     "google-bert/bert-base-multilingual-cased": "../models/mbert-ner/checkpoint-200"
 }
-
-
 CONLL_PATH = "../data/labeled/ner_auto_labels.conll"

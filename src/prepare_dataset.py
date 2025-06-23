@@ -9,7 +9,6 @@ def read_conll_file(path):
     """Reads a CoNLL file and returns a list of token/NER tag sequences."""
     sequences = []
     tokens, tags = [], []
-
     with open(path, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
@@ -29,29 +28,22 @@ def read_conll_file(path):
 def get_dataset():
     """Parses the CoNLL data and returns a HuggingFace Dataset with proper features."""
     sequences = read_conll_file(CONLL_PATH)
-
     label2id = {label: i for i, label in enumerate(LABELS)}
     id2label = {i: label for label, i in label2id.items()}
-
     all_tags = []
     for seq in sequences:
         seq["ner_tags"] = [label2id[tag] for tag in seq["ner_tags"]]
         all_tags.extend(seq["ner_tags"])
-
     print("\nLabel distribution:")
     for tag_id, count in Counter(all_tags).items():
         print(f"{id2label[tag_id]}: {count}")
-
     features = Features({
         "tokens": Sequence(Value("string")),
         "ner_tags": Sequence(ClassLabel(names=LABELS)),
     })
-
     dataset = Dataset.from_list(sequences)
     dataset = dataset.cast(features)
     return dataset.train_test_split(test_size=0.2)
-
-
 def tokenize_and_align(dataset, model_name):
     """Tokenizes input and aligns word-level NER tags with tokenized subwords."""
     tokenizer = AutoTokenizer.from_pretrained(model_name)
