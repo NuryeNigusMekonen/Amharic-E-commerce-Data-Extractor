@@ -23,13 +23,9 @@ def read_conll_file(path):
                     token, tag = splits[0], splits[-1]
                     tokens.append(token)
                     tags.append(tag)
-
     if tokens and tags:
         sequences.append({"tokens": tokens, "ner_tags": tags})
-
     return sequences
-
-
 def get_dataset():
     """Parses the CoNLL data and returns a HuggingFace Dataset with proper features."""
     sequences = read_conll_file(CONLL_PATH)

@@ -22,11 +22,8 @@ logging.basicConfig(
     format='%(asctime)s %(levelname)s: %(message)s',
     level=logging.INFO
 )
-
 # TOKENIZER 
 tokenizer = MosesTokenizer(lang='am')
-
-
 # CLEANING FUNCTION 
 def clean_text(text):
     if pd.isna(text):
@@ -76,8 +73,6 @@ def preprocess(file_path=INPUT_FILE):
 
     logging.info(f" Saved processed data to: {out_file}")
     return out_file
-
-
 # Optional: allow running directly
 if __name__ == "__main__":
     preprocess()

@@ -4,3 +4,4 @@ logs/
 *.conll
 AE-venv/
 AE-venv-py310/
+*.jpg
